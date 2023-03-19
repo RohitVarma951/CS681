@@ -37,7 +37,8 @@ public class Main {
         System.out.println("\nSetting Threshold Price of 40000.");
 
         System.out.println("\nHigh Priced Group:");
-        List<Car> carHighPrice = carsList.stream().filter((Car car)->car.getPrice() > threshold).collect(Collectors.toList());
+        Map<Boolean,List<Car>> carGroupPrice = carsList.stream().collect(Collectors.partitioningBy((Car car)->car.getPrice()>threshold));
+        List<Car> carHighPrice = carGroupPrice.get(true);
         carHighPrice.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getPrice()));
         min = carHighPrice.stream().mapToDouble((Car car)->car.getPrice()).min().getAsDouble();
         max = carHighPrice.stream().mapToDouble((Car car)->car.getPrice()).max().getAsDouble();
@@ -45,7 +46,7 @@ public class Main {
         System.out.println("Lowest Price:"+min+" Highest Price:"+max+" Average Price:"+avg+" Cars in Group:"+carHighPrice.size());
 
         System.out.println("\nLow Priced Group:");
-        List<Car> carLowPrice = carsList.stream().filter((Car car)->car.getPrice() <= threshold).collect(Collectors.toList());
+        List<Car> carLowPrice = carGroupPrice.get(false);
         carLowPrice.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getPrice()));
         min = carLowPrice.stream().mapToDouble((Car car)->car.getPrice()).min().getAsDouble();
         max = carLowPrice.stream().mapToDouble((Car car)->car.getPrice()).max().getAsDouble();
@@ -61,7 +62,8 @@ public class Main {
         System.out.println("\nSetting Threshold Year as 2022.");
 
         System.out.println("\nOld Cars Group:");
-        List<Car> oldCars = carsList.stream().filter((Car car)->car.getYear() < threshold1).collect(Collectors.toList());
+        Map<Boolean,List<Car>> carGroupYear = carsList.stream().collect(Collectors.partitioningBy((Car car)->car.getYear()<threshold1));
+        List<Car> oldCars = carGroupYear.get(true);
         oldCars.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getYear()));
         min1 = oldCars.stream().mapToInt((Car car)->car.getYear()).min().getAsInt();
         max1 = oldCars.stream().mapToInt((Car car)->car.getYear()).max().getAsInt();
@@ -69,7 +71,7 @@ public class Main {
         System.out.println("Oldest Car Year:"+min1+" Newest Car Year:"+max1+" Average Year:"+avg+" Cars in Group:"+oldCars.size());
 
         System.out.println("\nNew Cars Group:");
-        List<Car> newCars = carsList.stream().filter((Car car)->car.getYear() >= threshold1).collect(Collectors.toList());
+        List<Car> newCars = carGroupYear.get(false);
         newCars.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getYear()));
         min1 = newCars.stream().mapToInt((Car car)->car.getYear()).min().getAsInt();
         max1 = newCars.stream().mapToInt((Car car)->car.getYear()).max().getAsInt();
@@ -85,7 +87,8 @@ public class Main {
         System.out.println("\nSetting Threshold Mileage of 20.");
 
         System.out.println("\nGroup with Lesser Mileage:");
-        List<Car> lesserMileage = carsList.stream().filter((Car car)->car.getMileage() <= threshold2).collect(Collectors.toList());
+        Map<Boolean,List<Car>> carGroupMileage = carsList.stream().collect(Collectors.partitioningBy((Car car)->car.getMileage()<threshold2));
+        List<Car> lesserMileage = carGroupMileage.get(true);
         lesserMileage.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getMileage()));
         min1 = lesserMileage.stream().mapToInt((Car car)->car.getMileage()).min().getAsInt();
         max1 = lesserMileage.stream().mapToInt((Car car)->car.getMileage()).max().getAsInt();
@@ -93,7 +96,7 @@ public class Main {
         System.out.println("Least Mileage:"+min1+" Highest Mileage:"+max1+" Average Mileage:"+avg+" Cars in Group:"+lesserMileage.size());
 
         System.out.println("\nGroup with Higher Mileage:");
-        List<Car> higherMileage = carsList.stream().filter((Car car)->car.getMileage() > threshold2).collect(Collectors.toList());
+        List<Car> higherMileage = carGroupMileage.get(false);
         higherMileage.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getMileage()));
         min1 = higherMileage.stream().mapToInt((Car car)->car.getMileage()).min().getAsInt();
         max1 = higherMileage.stream().mapToInt((Car car)->car.getMileage()).max().getAsInt();
@@ -109,7 +112,8 @@ public class Main {
         System.out.println("\nSetting Threshold Domination Count of 8.");
 
         System.out.println("\nGroup with Low Domination Count:");
-        List<Car> lowDomCount = carsList.stream().filter((Car car)->car.getDominationCount() < threshold3).collect(Collectors.toList());
+        Map<Boolean,List<Car>> carGroupDominationCount = carsList.stream().collect(Collectors.partitioningBy((Car car)->car.getDominationCount()<threshold3));
+        List<Car> lowDomCount = carGroupDominationCount.get(true);
         lowDomCount.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getDominationCount()));
         min1 = lowDomCount.stream().mapToInt((Car car)->car.getDominationCount()).min().getAsInt();
         max1 = lowDomCount.stream().mapToInt((Car car)->car.getDominationCount()).max().getAsInt();
@@ -117,7 +121,7 @@ public class Main {
         System.out.println("Least Domination Count:"+min1+" Highest Domination Count:"+max1+" Average Domination Count:"+avg+" Cars in Group:"+lowDomCount.size());
 
         System.out.println("\nGroup with Higher Domination Count:");
-        List<Car> highDomCount = carsList.stream().filter((Car car)->car.getDominationCount() >= threshold3).collect(Collectors.toList());
+        List<Car> highDomCount = carGroupDominationCount.get(false);
         highDomCount.forEach((Car car)->System.out.println(car.getMake()+" "+car.getModel()+" "+car.getDominationCount()));
         min1 = highDomCount.stream().mapToInt((Car car)->car.getDominationCount()).min().getAsInt();
         max1 = highDomCount.stream().mapToInt((Car car)->car.getDominationCount()).max().getAsInt();
